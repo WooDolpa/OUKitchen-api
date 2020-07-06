@@ -1,0 +1,59 @@
+openapi: '3.0.0'
+#swagger: '2.0'
+
+info:
+  title: OUKitchen API
+  description: API Service
+  version: 1.0.0
+  contact:
+    email: dannis1124@naver.com
+
+servers:
+  - url: /api
+
+schemes:
+  - http
+#  - https
+consumes:
+  - application/json
+  - multipart/form-data
+produces:
+  - application/json
+tags:
+  - name: "사용자"
+    description: "사용자 관련 API"
+
+paths:
+  /v1/user/login:
+    $ref: spec/user/user_login_post_v1.yml
+
+
+definitions:
+  ApiResponse:
+    type: object
+    properties:
+      resCode:
+        type: string
+        description: 응답 코드
+      resData:
+        type: object
+        description:
+                 결과 데이타
+  Error:
+    type: object
+    properties:
+      resCode:
+        type: string
+        example: 에러 코드
+      errorMsg:
+        type: string
+        example: 에러 내용
+      resData:
+        type: object
+        description:
+                 결과 데이타
+
+  ErrorCode:
+    type: string
+    description: |
+      -1000 ->  서버 에러

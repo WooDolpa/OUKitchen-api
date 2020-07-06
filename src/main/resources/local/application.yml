@@ -1,0 +1,18 @@
+# DB Configuration
+spring.datasource.master.hikari:
+  pool-name: master
+  maximum-pool-size: 10
+  minimum-idle: 3
+  username: jwlee
+  password: Epsltm1124!
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  connection-timeout: 10000
+  idle-timeout: 60000
+  jdbc-url: jdbc:mysql://daworld.synology.me:3307/oukitchen?autoReconnect=true&useSSL=true&useUnicode=true&characterEncoding=UTF-8
+
+
+# 마이바티스 설정
+mybatis:
+  type-handlers-package: com.project.toy.common.utils.mybatis
+  configuration:
+    map-underscore-to-camel-case: true
