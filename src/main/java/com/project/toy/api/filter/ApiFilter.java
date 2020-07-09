@@ -77,7 +77,6 @@ public class ApiFilter implements Filter {
         if(!isNoNeedAuthApi){
             if(authLength != 0){
 
-                log.info("ApiFilter|doFilter|authLength:{}|auth:{}", authLength, auth);
                 String[] authArr = auth.split(":");
 
                 if(authArr == null || authArr.length != 2){
@@ -87,8 +86,6 @@ public class ApiFilter implements Filter {
 
                     String clientId = authArr[0];
                     String secretKey = authArr[1];
-
-                    log.info("ApiFilter|doFilter|clientId:{}|secretKey:{}", clientId, secretKey);
 
                     Optional<ApiAccountModel> apiAccountModelOptional = apiAccountService.findApiAccount(clientId, secretKey);
 

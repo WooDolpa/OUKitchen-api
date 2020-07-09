@@ -4,6 +4,7 @@ import com.project.toy.api.constant.ApiConstants;
 import com.project.toy.api.repository.ApiAccountRepository;
 import com.project.toy.common.enums.DataStatus;
 import com.project.toy.common.model.ApiAccountModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +20,7 @@ import java.util.Optional;
  * Date: 2020/07/06
  */
 @Service
+@Slf4j
 public class ApiAccountService {
 
     @Autowired
@@ -31,7 +33,7 @@ public class ApiAccountService {
      * @param secretKey
      * @return
      */
-    @Cacheable(value = ApiConstants.CACHE_CLIENT_ACCOUNT, key = "{}", unless = "#result == null")
+    @Cacheable(value = ApiConstants.CACHE_CLIENT_ACCOUNT, key = "{#clientId, #secretKey}", unless = "#result == null")
     public Optional<ApiAccountModel> findApiAccount (final String clientId, final String secretKey){
 
         Map<String, Object> map = new HashMap<>();
@@ -44,7 +46,6 @@ public class ApiAccountService {
         if(apiAccountModelOptional.isPresent()){
 
             ApiAccountModel apiAccountModel = apiAccountModelOptional.get();
-
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
             if(!bCryptPasswordEncoder.matches(secretKey, apiAccountModel.getSecretKey())){

@@ -36,6 +36,7 @@ public class ControllerAspect {
         String authYn = YesNoType.No.toStr();
 
         try {
+
             // 파라미터 값 추출
             parameterValues = joinPoint.getArgs();
             // 파라미터 정보
@@ -62,10 +63,9 @@ public class ControllerAspect {
 
         }catch (Throwable throwable){
             throw throwable;
-        }finally {
-            log.info("ControllerAspect|aroundAdviceMethod|End");
-            return result;
         }
 
+        log.info("ControllerAspect|aroundAdviceMethod|End");
+        return result;
     }
 }
