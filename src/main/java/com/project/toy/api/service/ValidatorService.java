@@ -32,12 +32,12 @@ public class ValidatorService {
 
             errors.getFieldErrors().stream().forEach(p -> {
 
-                if(ApiConstants.FIELD_ID.equals(p.getField())){
+                if(ApiConstants.FIELD_USER_ID.equals(p.getField())){
                     setErrorFormat(apiResponseDto, ManagedExceptionCode.InvalidId.toInt());
                     return;
                 }
 
-                if(ApiConstants.FIELD_PASSWORD.equals(p.getField())){
+                if(ApiConstants.FIELD_USER_PASSWORD.equals(p.getField())){
                     setErrorFormat(apiResponseDto, ManagedExceptionCode.InvalidPassword.toInt());
                     return;
                 }

@@ -12,8 +12,8 @@ public enum ManagedExceptionCode {
 
     AuthError                           (1),        // 인증 에러
     ServerError                         (2),        // 서버 에러
-    InvalidId                           (3),        // id 파라미터 오류
-    InvalidPassword                     (4),        // password 파라미터 오류
+    InvalidId                           (3),        // 사용자 아이디 오류
+    InvalidPassword                     (4),        // 사용자 비밀번호 오류
     ;
 
     private int errorCode;

@@ -11,7 +11,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -43,6 +45,11 @@ public class BeanConfig {
     @Bean(name = "dataSource")
     public DataSource dataSource(@Qualifier("masterDataSource") DataSource routingDataSource) {
         return new LazyConnectionDataSourceProxy(routingDataSource);
+    }
+
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager transactionManager(@Qualifier("dataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean

@@ -30,6 +30,7 @@ public class ManagedExceptionHandler {
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;     //400
 
         log.info("Error Type|{}", e.getClass());
+        log.info("Error Message|{}", e.getMessage());
         if(e instanceof ManagedException){
             me = (ManagedException) e;
         }else {

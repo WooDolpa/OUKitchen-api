@@ -3,6 +3,7 @@ package com.project.toy.api.controller;
 import com.project.toy.api.constant.ApiConstants;
 import com.project.toy.api.dto.ApiResponseDto;
 import com.project.toy.api.dto.UserDto;
+import com.project.toy.api.service.UserService;
 import com.project.toy.api.service.ValidatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,18 @@ public class UserController {
 
     @Autowired
     private ValidatorService validatorService;
+    @Autowired
+    private UserService userService;
 
-    @PostMapping(path = "login")
+    /**
+     * 로그인
+     *
+     * @param request
+     * @param dto
+     * @param errors
+     * @return
+     */
+    @PostMapping(path = "/login")
     public ResponseEntity login(HttpServletRequest request,
                                 @RequestBody @Valid UserDto.LoginReqDto dto,
                                 BindingResult errors){
@@ -47,5 +58,33 @@ public class UserController {
         apiResponseDto.setMsg(ApiConstants.RES_MSG_SUCCESS);
 
       return new ResponseEntity(apiResponseDto, HttpStatus.OK);
+    }
+
+    /**
+     * 회원가입
+     *
+     * @param request
+     * @param dto
+     * @param errors
+     * @return
+     */
+    @PostMapping(path = "/reg")
+    public ResponseEntity register(HttpServletRequest request,
+                                   @RequestBody @Valid UserDto.RegDto dto,
+                                   BindingResult errors){
+
+        Optional<ResponseEntity> responseEntityOptional = validatorService.validateParameter(errors);
+
+        if(responseEntityOptional.isPresent()){
+            return responseEntityOptional.get();
+        }
+
+        userService.insertUser(dto);        // 사용자 등록
+
+        ApiResponseDto apiResponseDto = new ApiResponseDto();
+        apiResponseDto.setCode(ApiConstants.RES_CODE_SUCCESS);
+        apiResponseDto.setMsg(ApiConstants.RES_MSG_SUCCESS);
+
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 }

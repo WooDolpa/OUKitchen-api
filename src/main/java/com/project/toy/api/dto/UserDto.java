@@ -24,9 +24,23 @@ public class UserDto {
 
         private static final long serialVersionUID = -8699263325984010854L;
         @NotEmpty
-        private String id;              // 아이디
+        private String userId;                          // 아이디
         @NotEmpty
-        private String password;        // 패스워드
+        private String userPassword;                    // 패스워드
     }
 
+    /**
+     * 회원가입 정보
+     *
+     */
+    @Data
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class RegDto implements Serializable {
+
+        private static final long serialVersionUID = -2794366792295686685L;
+        @NotEmpty
+        private String userId;                          // 아이디
+        @NotEmpty
+        private String userPassword;                    // 패스워드
+    }
 }

@@ -26,6 +26,8 @@ tags:
 paths:
   /v1/user/login:
     $ref: spec/user/user_login_post_v1.yml
+  /v1/user/reg:
+    $ref: spec/user/user_reg_post_v1.yml
 
 
 definitions:
@@ -56,4 +58,4 @@ definitions:
   ErrorCode:
     type: string
     description: |
-      -1000 ->  서버 에러
+      -2 ->  서버 에러
