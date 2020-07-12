@@ -30,6 +30,8 @@ paths:
     $ref: spec/user/user_login_check_post_v1.yml
   /v1/user/login:
     $ref: spec/user/user_login_post_v1.yml
+  /v1/user/info:
+    $ref: spec/user/user_info_get_v1.yml
 
 definitions:
   ApiResponse:

@@ -66,7 +66,12 @@ public class UserDto {
     public static class ResDto implements Serializable {
 
         private static final long serialVersionUID = -5895007915944151155L;
-        @NotEmpty
+
+        private String userNo;                          // 사용자 번호
         private String userId;                          // 아이디
+        private String userStatus;                      // 상태
+        private String userStatusNm;                    // 상태명
+        private String regDatetime;                     // 등록일
+        private String updDatetime;                     // 수정일
     }
 }

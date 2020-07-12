@@ -29,4 +29,9 @@ public class ApiConstants {
     // Response Message
     public static final String UNKNOWN_ERROR_MSG                                            =   "알 수 없는 에러입니다.";
     public static final String RES_MSG_SUCCESS                                              =   "성공";
+
+
+    // Response Data Convert
+    public static final String USER_STATUS_ACTIVE_NAME                                      =   "활성";
+    public static final String USER_STATUS_INACTIVE_NAME                                    =   "비활성";
 }

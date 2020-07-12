@@ -1,10 +1,15 @@
-post:
+get:
   summary: |
-    아이디 중복체크
+    사용자 조회
   description: |
-    - **회원가입시 사용자 아이디 중복체크**
+    - **사용자 정보 조회**
     - **API 호출 인증을 위해 발급 받은 인증키 값을 HTTP Header의 OUKitchen-Authorization 필드에 입력 후 API 호출**
     - **userId - 사용자 아이디**
+    - **응답값의 userNo는 사용자 넘버**
+    - **응답값의 userId는 사용자 아이디**
+    - **응답값의 userStatus(활성 - 1, 비활성 - 2)는 구성원 상태 값**
+    - **응답값의 regDatetime는 등록일**
+    - **응답값의 updDatetime는 수정일**
   parameters:
     - name: OUKitchen-Authorization
       in: header
@@ -12,18 +17,13 @@ post:
       required: true
       schema:
         type: string
-  requestBody:
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            userId:
-              type: string
-          example:
-            {
-              userId: "test@test.com"
-            }
+    - name: userId
+      in: query
+      description: 사용자 아이디
+      required: true
+      schema:
+        type: string
+
   tags:
     - 사용자
 
@@ -35,15 +35,22 @@ post:
         sample:
           code: 0
           msg: "성공"
+          data: {
+            userNo: "1",
+            userId: "test@test.com",
+            userStatus: "1",
+            userStatusNm: "활성",
+            regDatetime: "2020.07.10 00:00:00",
+            updDatetime: "2020.07.11 00:00:00"
+          }
     '400':
       description: |
         - 응답 코드
         - 0 -> 성공
+        - 0 -> 성공
         - 1 -> 인증 오류
         - 2 -> 서버 오류
         - 3 -> 사용자 아이디 파라미터 오류
-        - 8 -> 이미 존재하는 아이디
-        -
       examples:
         sample:
           code: 1
@@ -51,3 +58,4 @@ post:
       '500':
         description: |
           - 서버 에러
+

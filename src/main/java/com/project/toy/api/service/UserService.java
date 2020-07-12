@@ -1,10 +1,11 @@
 package com.project.toy.api.service;
 
+import com.project.toy.api.constant.ApiConstants;
 import com.project.toy.api.dto.UserDto;
 import com.project.toy.api.exception.ManagedException;
 import com.project.toy.api.exception.ManagedExceptionCode;
 import com.project.toy.api.repository.UserRepository;
-import com.project.toy.common.enums.DataStatus;
+import com.project.toy.common.enums.UserStatus;
 import com.project.toy.common.model.UserModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class UserService {
 
             map.put("userId", dto.getUserId());
             map.put("userPassword", password);
-            map.put("dataStatus", DataStatus.ACTIVE.toInt());
+            map.put("userStatus", UserStatus.ACTIVE.toInt());
 
             userRepository.insertUser(map);
 
@@ -80,7 +81,7 @@ public class UserService {
             }
 
             // 사용자 상태값 체크
-            if(DataStatus.INACTIVE.toInt() == userModel.getDataStatus()){
+            if(UserStatus.INACTIVE.toInt() == userModel.getUserStatus()){
                 throw new ManagedException(ManagedExceptionCode.InActiveUser);
             }
 
@@ -108,5 +109,43 @@ public class UserService {
         if(userModelOptional.isPresent()){
             throw new ManagedException(ManagedExceptionCode.AlreadyUserId);
         }
+    }
+
+    /**
+     * 사용자 조회
+     *
+     * @param userId
+     * @return
+     */
+    public Optional<UserDto.ResDto> findUser(final String userId){
+
+        UserDto.ResDto result = new UserDto.ResDto();
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("userStatus", UserStatus.ACTIVE.toInt());
+
+        Optional<UserModel> userModelOptional = Optional.ofNullable(userRepository.findUser(map));
+
+        if(userModelOptional.isPresent()){
+
+            UserModel userModel = userModelOptional.get();
+            result.setUserNo(Integer.toString(userModel.getUserNo()));
+            result.setUserId(userModel.getUserId());
+            result.setUserStatus(Integer.toString(userModel.getUserStatus()));
+
+            if(UserStatus.ACTIVE.toInt() == userModel.getUserStatus()){
+                result.setUserStatusNm(ApiConstants.USER_STATUS_ACTIVE_NAME);   // 활성
+            }else if(UserStatus.INACTIVE.toInt() == userModel.getUserStatus()){
+                result.setUserStatusNm(ApiConstants.USER_STATUS_INACTIVE_NAME); // 비활성
+            }
+
+            result.setRegDatetime(userModel.getRegDatetime());
+            result.setUpdDatetime(userModel.getUpdDatetime());
+
+        }else{
+            throw new ManagedException(ManagedExceptionCode.ServerError);
+        }
+
+        return Optional.ofNullable(result);
     }
 }

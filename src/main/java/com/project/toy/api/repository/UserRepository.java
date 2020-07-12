@@ -23,8 +23,8 @@ public interface UserRepository {
      */
     @Insert("<script>                                                           "
             +"insert /* UserRepository.insertUser */ into user                  "
-            +"(user_id, user_password, data_status, reg_datetime)values         "
-            +"(#{userId}, #{userPassword}, #{dataStatus}, now())                "
+            +"(user_id, user_password, user_status, reg_datetime)values         "
+            +"(#{userId}, #{userPassword}, #{userStatus}, now())                "
             +"</script>                                                         "
     )
     int insertUser (Map<String, Object> map);

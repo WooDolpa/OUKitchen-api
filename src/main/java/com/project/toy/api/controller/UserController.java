@@ -3,6 +3,8 @@ package com.project.toy.api.controller;
 import com.project.toy.api.constant.ApiConstants;
 import com.project.toy.api.dto.ApiResponseDto;
 import com.project.toy.api.dto.UserDto;
+import com.project.toy.api.exception.ManagedException;
+import com.project.toy.api.exception.ManagedExceptionCode;
 import com.project.toy.api.service.UserService;
 import com.project.toy.api.service.ValidatorService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -117,4 +116,30 @@ public class UserController {
 
         return new ResponseEntity(apiResponseDto, HttpStatus.OK);
     }
+
+    /**
+     * 사용자 정보 조회
+     *
+     * @param request
+     * @param userId
+     * @return
+     */
+    @GetMapping(path = "/info")
+    public ResponseEntity userInfo (HttpServletRequest request,
+                                    @RequestParam(value = "userId", defaultValue = "") final String userId){
+
+        if("".equals(userId)){
+            throw new ManagedException(ManagedExceptionCode.InvalidId);
+        }
+
+        Optional<UserDto.ResDto> dto = userService.findUser(userId);
+
+        ApiResponseDto apiResponseDto = new ApiResponseDto();
+        apiResponseDto.setCode(ApiConstants.RES_CODE_SUCCESS);
+        apiResponseDto.setMsg(ApiConstants.RES_MSG_SUCCESS);
+        apiResponseDto.setData(dto.get());
+
+        return new ResponseEntity(apiResponseDto, HttpStatus.OK);
+    }
+
 }
