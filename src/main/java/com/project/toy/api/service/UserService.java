@@ -67,12 +67,20 @@ public class UserService {
 
             UserModel userModel = userModelOptional.get();
             log.info("UserModel : {}", userModel);
-            if(DataStatus.ACTIVE.toInt() == userModel.getDataStatus().toInt()){
-                resDto.setUserId(userModel.getUserId());
-                return Optional.ofNullable(resDto);
+
+            // 비밀번호 일치 여부
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+            if(!bCryptPasswordEncoder.matches(dto.getUserPassword(), userModel.getUserPassword())){
+                throw new ManagedException(ManagedExceptionCode.MisMatchPassword);
             }
 
-            throw new ManagedException(ManagedExceptionCode.InActiveUser);
+            if(DataStatus.INACTIVE.toInt() == userModel.getDataStatus()){
+                throw new ManagedException(ManagedExceptionCode.InActiveUser);
+            }
+
+            resDto.setUserId(userModel.getUserId());
+            return Optional.ofNullable(resDto);
 
         }else{
             throw new ManagedException(ManagedExceptionCode.NoExistUser);
