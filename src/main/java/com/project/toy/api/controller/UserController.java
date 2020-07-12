@@ -35,32 +35,6 @@ public class UserController {
     private UserService userService;
 
     /**
-     * 로그인
-     *
-     * @param request
-     * @param dto
-     * @param errors
-     * @return
-     */
-    @PostMapping(path = "/login")
-    public ResponseEntity login(HttpServletRequest request,
-                                @RequestBody @Valid UserDto.LoginReqDto dto,
-                                BindingResult errors){
-
-        Optional<ResponseEntity> responseEntityOptional = validatorService.validateParameter(errors);
-
-        if(responseEntityOptional.isPresent()){
-            return responseEntityOptional.get();
-        }
-
-        ApiResponseDto apiResponseDto = new ApiResponseDto();
-        apiResponseDto.setCode(0);
-        apiResponseDto.setMsg(ApiConstants.RES_MSG_SUCCESS);
-
-      return new ResponseEntity(apiResponseDto, HttpStatus.OK);
-    }
-
-    /**
      * 회원가입
      *
      * @param request
@@ -86,5 +60,33 @@ public class UserController {
         apiResponseDto.setMsg(ApiConstants.RES_MSG_SUCCESS);
 
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+    }
+
+    /**
+     * 로그인
+     *
+     * @param request
+     * @param dto
+     * @param errors
+     * @return
+     */
+    @PostMapping(path = "/login")
+    public ResponseEntity login(HttpServletRequest request,
+                                @RequestBody @Valid UserDto.LoginReqDto dto,
+                                BindingResult errors){
+
+        Optional<ResponseEntity> responseEntityOptional = validatorService.validateParameter(errors);
+
+        if(responseEntityOptional.isPresent()){
+            return responseEntityOptional.get();
+        }
+
+        userService.loginCheck(dto);
+
+        ApiResponseDto apiResponseDto = new ApiResponseDto();
+        apiResponseDto.setCode(0);
+        apiResponseDto.setMsg(ApiConstants.RES_MSG_SUCCESS);
+
+        return new ResponseEntity(apiResponseDto, HttpStatus.OK);
     }
 }

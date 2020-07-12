@@ -43,4 +43,13 @@ public class UserDto {
         @NotEmpty
         private String userPassword;                    // 패스워드
     }
+
+    @Data
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class ResDto implements Serializable {
+
+        private static final long serialVersionUID = -5895007915944151155L;
+        @NotEmpty
+        private String userId;                          // 아이디
+    }
 }

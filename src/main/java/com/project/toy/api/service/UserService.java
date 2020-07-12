@@ -1,8 +1,11 @@
 package com.project.toy.api.service;
 
 import com.project.toy.api.dto.UserDto;
+import com.project.toy.api.exception.ManagedException;
+import com.project.toy.api.exception.ManagedExceptionCode;
 import com.project.toy.api.repository.UserRepository;
 import com.project.toy.common.enums.DataStatus;
+import com.project.toy.common.model.UserModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -49,6 +53,30 @@ public class UserService {
             throw e;
         }
 
+    }
+
+    public Optional<UserDto.ResDto> loginCheck (final UserDto.LoginReqDto dto){
+
+        UserDto.ResDto resDto = new UserDto.ResDto();
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", dto.getUserId());
+
+        Optional<UserModel> userModelOptional = Optional.ofNullable(userRepository.findUser(map));
+
+        if(userModelOptional.isPresent()){
+
+            UserModel userModel = userModelOptional.get();
+            log.info("UserModel : {}", userModel);
+            if(DataStatus.ACTIVE.toInt() == userModel.getDataStatus().toInt()){
+                resDto.setUserId(userModel.getUserId());
+                return Optional.ofNullable(resDto);
+            }
+
+            throw new ManagedException(ManagedExceptionCode.InActiveUser);
+
+        }else{
+            throw new ManagedException(ManagedExceptionCode.NoExistUser);
+        }
     }
 
 }

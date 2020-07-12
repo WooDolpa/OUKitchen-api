@@ -3,8 +3,8 @@ post:
     회원 가입
   description: |
     - **사용자 회원가입**
-    - **userId: 사용자 ID**
-    - **userPassword: 사용자 비밀번호**
+    - **userId - 사용자 아이디**
+    - **userPassword - 사용자 비밀번호**
   parameters:
     - name: OUKitchen-Authorization
       in: header
@@ -18,9 +18,9 @@ post:
         schema:
           type: object
           properties:
-            id:
+            userId:
               type: string
-            password:
+            userPassword:
               type: string
           example:
             {
