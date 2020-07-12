@@ -17,6 +17,7 @@ public enum ManagedExceptionCode {
     NoExistUser                         (5),        // 존재하지 않은 사용자
     MisMatchPassword                    (6),        // 비밀번호 불일치
     InActiveUser                        (7),        // 이용 불가능한 사용자
+    AlreadyUserId                       (8),        // 이미 존재하는 아이디
     ;
 
     private int errorCode;

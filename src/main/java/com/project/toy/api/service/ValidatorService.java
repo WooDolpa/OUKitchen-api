@@ -24,6 +24,12 @@ public class ValidatorService {
     @Autowired
     private ErrorMessageService errorMessageService;
 
+    /**
+     * API 파라미터 유효성 검사
+     *
+     * @param errors
+     * @return
+     */
     public Optional<ResponseEntity> validateParameter(final BindingResult errors){
 
         if(errors.hasErrors()){

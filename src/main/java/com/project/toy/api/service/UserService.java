@@ -55,7 +55,13 @@ public class UserService {
 
     }
 
-    public Optional<UserDto.ResDto> loginCheck (final UserDto.LoginReqDto dto){
+    /**
+     * 로그인
+     *
+     * @param dto
+     * @return
+     */
+    public Optional<UserDto.ResDto> login (final UserDto.LoginReqDto dto){
 
         UserDto.ResDto resDto = new UserDto.ResDto();
         Map<String, Object> map = new HashMap<>();
@@ -66,15 +72,14 @@ public class UserService {
         if(userModelOptional.isPresent()){
 
             UserModel userModel = userModelOptional.get();
-            log.info("UserModel : {}", userModel);
-
-            // 비밀번호 일치 여부
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
+            // 비밀번호 일치여부
             if(!bCryptPasswordEncoder.matches(dto.getUserPassword(), userModel.getUserPassword())){
                 throw new ManagedException(ManagedExceptionCode.MisMatchPassword);
             }
 
+            // 사용자 상태값 체크
             if(DataStatus.INACTIVE.toInt() == userModel.getDataStatus()){
                 throw new ManagedException(ManagedExceptionCode.InActiveUser);
             }
@@ -83,8 +88,25 @@ public class UserService {
             return Optional.ofNullable(resDto);
 
         }else{
+            // 존재하지 않은 사용자
             throw new ManagedException(ManagedExceptionCode.NoExistUser);
         }
     }
 
+    /**
+     * 아이디 중복체크
+     *
+     * @param dto
+     */
+    public void userIdCheck (final UserDto.DefaultReqDto dto){
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", dto.getUserId());
+
+        Optional<UserModel> userModelOptional = Optional.ofNullable(userRepository.findUser(map));
+
+        if(userModelOptional.isPresent()){
+            throw new ManagedException(ManagedExceptionCode.AlreadyUserId);
+        }
+    }
 }

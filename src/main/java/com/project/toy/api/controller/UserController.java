@@ -63,6 +63,34 @@ public class UserController {
     }
 
     /**
+     * 아이디 중복체크
+     *
+     * @param request
+     * @param dto
+     * @param errors
+     * @return
+     */
+    @PostMapping(path = "/login/check")
+    public ResponseEntity loginCheck(HttpServletRequest request,
+                                     @RequestBody @Valid UserDto.DefaultReqDto dto,
+                                     BindingResult errors){
+
+        Optional<ResponseEntity> responseEntityOptional = validatorService.validateParameter(errors);
+
+        if(responseEntityOptional.isPresent()){
+            return responseEntityOptional.get();
+        }
+
+        userService.userIdCheck(dto);
+
+        ApiResponseDto apiResponseDto = new ApiResponseDto();
+        apiResponseDto.setCode(ApiConstants.RES_CODE_SUCCESS);
+        apiResponseDto.setMsg(ApiConstants.RES_MSG_SUCCESS);
+
+        return new ResponseEntity(apiResponseDto, HttpStatus.OK);
+    }
+
+    /**
      * 로그인
      *
      * @param request
@@ -81,7 +109,7 @@ public class UserController {
             return responseEntityOptional.get();
         }
 
-        userService.loginCheck(dto);
+        userService.login(dto);
 
         ApiResponseDto apiResponseDto = new ApiResponseDto();
         apiResponseDto.setCode(0);

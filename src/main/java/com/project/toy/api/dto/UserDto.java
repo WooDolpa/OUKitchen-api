@@ -15,6 +15,19 @@ import java.io.Serializable;
 public class UserDto {
 
     /**
+     * 사용자 정보 기본 요청
+     *
+     */
+    @Data
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class DefaultReqDto implements Serializable {
+
+        private static final long serialVersionUID = 6018103877969062833L;
+        @NotEmpty
+        private String userId;
+    }
+
+    /**
      * 로그인 정보
      *
      */
@@ -44,6 +57,10 @@ public class UserDto {
         private String userPassword;                    // 패스워드
     }
 
+    /**
+     * API 응답값
+     *
+     */
     @Data
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class ResDto implements Serializable {

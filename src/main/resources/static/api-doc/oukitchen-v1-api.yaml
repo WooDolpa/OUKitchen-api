@@ -24,11 +24,12 @@ tags:
     description: "사용자 관련 API"
 
 paths:
-  /v1/user/login:
-    $ref: spec/user/user_login_post_v1.yml
   /v1/user/reg:
     $ref: spec/user/user_reg_post_v1.yml
-
+  /v1/user/login/check:
+    $ref: spec/user/user_login_check_post_v1.yml
+  /v1/user/login:
+    $ref: spec/user/user_login_post_v1.yml
 
 definitions:
   ApiResponse:

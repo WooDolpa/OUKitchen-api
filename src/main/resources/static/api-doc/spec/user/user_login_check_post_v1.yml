@@ -1,0 +1,52 @@
+post:
+  summary: |
+    아이디 중복체크
+  description: |
+    - **회원가입시 사용자 아이디 중복체크**
+    - **userId - 사용자 아이디**
+  parameters:
+    - name: OUKitchen-Authorization
+      in: header
+      description: API 호출 인증을 위한 인증키 값
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            userId:
+              type: string
+          example:
+            {
+              userId: "test@test.com"
+            }
+  tags:
+    - 사용자
+
+  responses:
+    '200':
+      description: |
+        - 응답 샘플
+      examples:
+        sample:
+          code: 0
+          msg: "성공"
+    '400':
+      description: |
+        - 응답 코드
+        - 0 -> 성공
+        - 1 -> 인증 오류
+        - 2 -> 서버 오류
+        - 3 -> 사용자 아이디 파라미터 오류
+        - 8 -> 이미 존재하는 아이디
+        -
+      examples:
+        sample:
+          code: 1
+          msg: "인증 오류"
+      '500':
+        description: |
+          - 서버 에러

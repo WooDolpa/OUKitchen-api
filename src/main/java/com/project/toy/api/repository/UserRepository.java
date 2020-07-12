@@ -29,7 +29,12 @@ public interface UserRepository {
     )
     int insertUser (Map<String, Object> map);
 
-
+    /**
+     * 사용자 조회
+     *
+     * @param map
+     * @return
+     */
     @Select("<script>                                                           "
             +"select /* UserRepository.findUser */                              "
             +"*                                                                 "
