@@ -1,0 +1,65 @@
+post:
+  summary: |
+    사용자 수정
+  description: |
+    - **사용자 회원수정**
+    - **API 호출 인증을 위해 발급 받은 인증키 값을 HTTP Header의 OUKitchen-Authorization 필드에 입력 후 API 호출**
+    - **userNo - 사용자 번호**
+    - **userId - 사용자 아이디**
+    - **userPassword - 사용자 비밀번호**
+    - **userStatus - 사용자 상태 (1-활성, 2-비활성)**
+  parameters:
+    - name: OUKitchen-Authorization
+      in: header
+      description: API 호출 인증을 위한 인증키 값
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            userNo:
+              type: integer
+            userId:
+              type: string
+            userPassword:
+              type: string
+          example:
+            {
+              userNo: 1,
+              userId: "test@test.com",
+              userPassword: "1234512345",
+              userStatus: 1
+            }
+  tags:
+    - 사용자
+
+  responses:
+    '200':
+      description: |
+        - 응답 샘플
+      examples:
+        sample:
+          code: 0
+          msg: "성공"
+    '400':
+      description: |
+        - 응답 코드
+        - 0 -> 성공
+        - 1 -> 인증 오류
+        - 2 -> 서버 오류
+        - 3 -> 사용자 아이디 파라미터 오류
+        - 4 -> 사용자 비밀번호 파라미터 오류
+        - 9 -> 사용자 번호 파라미터 오류
+        - 10 -> 사용자 상태 파라미터 오류
+        -
+      examples:
+        sample:
+          code: 1
+          msg: "인증 오류"
+      '500':
+        description: |
+          - 서버 에러

@@ -1,6 +1,6 @@
 post:
   summary: |
-    회원 가입
+    사용자 가입
   description: |
     - **사용자 회원가입**
     - **API 호출 인증을 위해 발급 받은 인증키 값을 HTTP Header의 OUKitchen-Authorization 필드에 입력 후 API 호출**

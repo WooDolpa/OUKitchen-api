@@ -18,6 +18,8 @@ public enum ManagedExceptionCode {
     MisMatchPassword                    (6),        // 비밀번호 불일치
     InActiveUser                        (7),        // 이용 불가능한 사용자
     AlreadyUserId                       (8),        // 이미 존재하는 아이디
+    InvalidUserNo                       (9),        // 사용자 번호 파라미터 오류
+    InvalidUserStatus                   (10),       // 사용자 상태 파라미터 오류
     ;
 
     private int errorCode;

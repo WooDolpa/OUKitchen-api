@@ -48,6 +48,16 @@ public class ValidatorService {
                     return;
                 }
 
+                if(ApiConstants.FIELD_USER_NO.equals(p.getField())){
+                    setErrorFormat(apiResponseDto, ManagedExceptionCode.InvalidUserNo.toInt());
+                    return;
+                }
+
+                if(ApiConstants.FIELD_USER_STATUS.equals(p.getField())){
+                    setErrorFormat(apiResponseDto, ManagedExceptionCode.InvalidUserStatus.toInt());
+                    return;
+                }
+
             });
 
             return Optional.of(new ResponseEntity(apiResponseDto, HttpStatus.BAD_REQUEST));

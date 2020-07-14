@@ -148,4 +148,39 @@ public class UserService {
 
         return Optional.ofNullable(result);
     }
+
+    /**
+     * 사용자 정보 수정
+     *
+     * @param dto
+     */
+    @Transactional
+    public void updateUser(final UserDto.UpdateDto dto){
+
+        // 1. 사용자 정보 조회
+        Map<String, Object> map = new HashMap<>();
+        map.put("userNo", dto.getUserNo());
+
+        Optional<UserModel> userModelOptional = Optional.ofNullable(userRepository.findUser(map));
+
+        if(!userModelOptional.isPresent()){
+            throw new ManagedException(ManagedExceptionCode.NoExistUser);
+        }
+
+        try {
+
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+            map.put("userId", dto.getUserId());
+            map.put("userPassword", bCryptPasswordEncoder.encode(dto.getUserPassword()));
+            map.put("userStatus", dto.getUserStatus());
+
+            userRepository.updateUser(map);
+
+        }catch (Exception e){
+            log.warn("UserService|Update|User|Error|{}", e.getMessage());
+            throw new ManagedException(ManagedExceptionCode.ServerError);
+        }
+
+    }
 }

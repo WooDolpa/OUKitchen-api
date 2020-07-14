@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -55,6 +56,25 @@ public class UserDto {
         private String userId;                          // 아이디
         @NotEmpty
         private String userPassword;                    // 패스워드
+    }
+
+    /**
+     * 업데이트 정보
+     *
+     */
+    @Data
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class UpdateDto implements Serializable {
+
+        private static final long serialVersionUID = -7775684365724173049L;
+        @NotNull
+        private Integer userNo;                         // 사용자 번호
+        @NotNull
+        private String userId;                          // 아이디
+        @NotNull
+        private String userPassword;                    // 비밀번호
+        @NotNull
+        private String userStatus;                      // 사용자 상태
     }
 
     /**
